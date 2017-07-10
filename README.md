@@ -49,6 +49,13 @@ This is a living document meant to describe the basic state for all of Ansible c
 
 Roles are meant to be co-exist in an ecosystem of roles, whether they're published publicly or not. They have a few extra requirements which help reduce duplicated effort and help encourage reusability.
 
+### Instantiation
+
+```bash
+pip install cookiecutter
+cookiecutter https://github.com/inhumantsar/cookiecutter-ansible-role
+```
+
 ### Standards
 #### Scoped Appropriately
   * Only do what *needs* doing.
@@ -83,58 +90,12 @@ is strictly prohibited.
 Written by Elmer Fudd <efudd@acmesystems.com>, September 1943.
 ```
 
-### Instantiation
-
-```bash
-pip install cookiecutter
-cookiecutter https://github.com/inhumantsar/cookiecutter-ansible-role
-```
-
-### Directory Structure
-
-```
-.gitlab-ci.yml        # performs syntax checking and runs the test.yml playbook on gitlab-ci
-.travis.yml           # ditto but for github
-README.md             # don't be a jerk, write some docs.
-requirements.yml      # describes all of the roles this role requires. KISS principle applies.
-test.yml              # playbook which executes things in this role as a functional test.
-defaults/
-  main.yml            # provides defaults users can override
-handlers/
-  main.yml
-meta/
-  main.yml            # provides information for ansible-galaxy to use
-tasks/
-  main.yml            # the meat. don't forget your `asserts`!
-test/                 # any supporting files required for testing goes in this dir
-vars/
-  main.yml            # vars in here will override vars in defaults/main.yml
-  prod.yml            # best used to provide sane defaults when feature flags are used
-```
-
 ## Playbooks
 
 Playbooks describe specific, end-of-line configurations. For example, we might have
 written roles to deploy an Nginx/PHP server, and another to deploy a PostgreSQL DB.
 We'll put those together, adding different parameters and inventories for each environment, and
 use them to set up a specific web application; for example, the company's Wordpress site.
-
-### Individualized
-  * Generally, one repo should contain one playbook which accomplishes one goal.
-    * eg: The `ansible-fooapp` repo contains the `fooapp` playbook which configures the `fooapp` service on particular hosts.
-  * Multiple playbooks are reasonable to keep in one repo if they are all necessary to acheive the
-same end goal.
-    * eg: `fooapp` requires its own cluster of `memcached` servers, so having a `memcached` playbook in the same repo would make sense.
-
-### Complete
-  * Nothing should require tailoring prior to use.
-  * Programmatically fetch or generate anything external.
-
-### Sanitized
-  * _This is here again because playbooks are the most immediately logical place to put secrets._
-  * No unencrypted secrets ever for any reason.
-  * No sensitive IP addresses, URLs, personal or corporate information ever for any reason. (These are lesser secrets, but still secrets.)
-  * No log files, temp files, one-off helper scripts, etc. (`.gitignore` is your friend)
 
 ### Instantiation
 
@@ -143,14 +104,20 @@ pip install cookiecutter
 cookiecutter https://github.com/inhumantsar/cookiecutter-ansible-playbook
 ```
 
-### Directory Structure
-```
-playbook.yml              # standard name users will expect
-ansible.cfg               # probably unnecessary in most cases?
-requirements.yml          # a listing of all the roles required by playbooks in this repo.
-environments/   
-  [prod|dev|test]/                 
-    group_vars/           # env-specific role parameters, ansible-playbook uses
-      all                 #   these automatically when the env's inventory is used
-    hosts                 # inventory file
-```
+### Standards
+#### Individualized
+  * Generally, one repo should contain one playbook which accomplishes one goal.
+    * eg: The `ansible-fooapp` repo contains the `fooapp` playbook which configures the `fooapp` service on particular hosts.
+  * Multiple playbooks are reasonable to keep in one repo if they are all necessary to acheive the
+same end goal.
+    * eg: `fooapp` requires its own cluster of `memcached` servers, so having a `memcached` playbook in the same repo would make sense.
+
+#### Complete
+  * Nothing should require tailoring prior to use.
+  * Programmatically fetch or generate anything external.
+
+#### Sanitized
+  * _This is here again because playbooks are the most immediately logical place to put secrets._
+  * No unencrypted secrets ever for any reason.
+  * No sensitive IP addresses, URLs, personal or corporate information ever for any reason. (These are lesser secrets, but still secrets.)
+  * No log files, temp files, one-off helper scripts, etc. (`.gitignore` is your friend)

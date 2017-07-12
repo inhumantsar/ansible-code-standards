@@ -10,8 +10,8 @@ Every point below comes with an asterisk implied: _\* Within reason._&nbsp; Some
 
 ### Tested
   1. Syntax checked with `ansible-playbook --syntax-check`.
-  * Detailed [asserts](http://docs.ansible.com/ansible/assert_module.html) written for each task.
-  * Implemented in a dummy environment which resembles live environments.
+  1. Detailed [asserts](http://docs.ansible.com/ansible/assert_module.html) written for each task.
+  1. Implemented in a dummy environment which resembles live environments.
 
 ### Consistent
   1. Linted with [ansible-lint](https://github.com/willthames/ansible-lint).
@@ -43,13 +43,13 @@ Roles are meant to be co-exist in an ecosystem of roles, whether they're publish
 ### Scoped Appropriately
   1. Avoids installing the entire stack of pre-requisites whenever possible.
     * eg: Roles which launch Java applications should not attempt to install Java.
-  1. Call on public roles to do work whenever possible.
+  2. Call on public roles to do work whenever possible.
     * eg: Roles which launch ancient Java applications with very specific requirements may *need* to call on a Java role to install an application-specific Java.
 
 ### Parameterized
   1. Avoids hardcoding configuration data.
     * Package names, URLs, port numbers, usernames, passwords, version numbers, etc.
-  1. Includes sane values for all required parameters in `defaults/main.yml`.
+  2. Includes sane values for all required parameters in `defaults/main.yml`.
 
 ### Prepped for the Galaxy
   1. Includes a `LICENSE` file (see below).

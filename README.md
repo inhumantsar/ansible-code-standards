@@ -2,7 +2,26 @@
 
 This is a living document meant to describe the basic state for all of Ansible code. This can refer to one-off playbooks for individual hosts, or tidy reusable roles published to the Ansible Galaxy. It's meant to guide development toward practices which make everyone's lives easier in the long run. Anything here which doesn't contribute to that goal should be argued about and revised.
 
-## First and always: Keep it simple
+## First and always: Keep It Simple and Specific
+
+## Naming Conventions
+
+`ansible-<type>-<infra>-<application>`
+
+Where _type_ could be either `role` or `play`, _infra_ would be an OS or cloud provider
+or a system and _application_ would be the particular component being configured.
+
+The key goal here is clarity. The `ansible` prefix makes the repo easy to group and search for. Being explicit about whether it's a `play` or `role` helps set up some immediate expectations about how the code operates. Identifying the target infrastructure helps keep different implementations of the same thing separate, as well as communicate potential compatibility issues instantly.
+
+Note that if you submit a role to the Galaxy prefixed with `ansible-`, they'll strip that off the role name and also give you the opportunity to set it manually. So `ansible-role-docker-compose-gitlab` could be referred to in `requirements.yml` files as `<username>.docker-compose-gitlab`.
+
+#### Examples
+* `ansible-role-docker-compose-gitlab` - This one might be too long, could probably drop the `compose`.
+* `ansible-role-rhel-selinux`
+* `ansible-role-linux-sshconfig` - _linux_ used instead of listing specific distros
+* `ansible-play-labjenkins-javaslaves`
+* `ansible-play-aws-ecs-artifactory`
+
 
 ## Minimal Standards
 

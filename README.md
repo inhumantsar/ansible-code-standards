@@ -6,7 +6,7 @@ This is a living document meant to describe the basic state for all of Ansible c
 
 ## Minimal Standards
 
-Every point below comes with an asterisk implied: _** \* Within reason.**_&nbsp; Sometimes hardcoding data (especially Ansible inventories) is the only reasonable option. Sometimes you need to merge a change whose tests aren't _all_ passing. Exceptional circumstances.
+Every point below comes with an asterisk implied: _\* Within reason._&nbsp; Sometimes hardcoding data (especially Ansible inventories) is the only reasonable option. Sometimes you need to merge a change whose tests aren't _all_ passing. Exceptional circumstances.
 
 ### Tested
   1. Syntax checked with `ansible-playbook --syntax-check`.
@@ -15,23 +15,23 @@ Every point below comes with an asterisk implied: _** \* Within reason.**_&nbsp;
 
 ### Consistent
   1. Linted with [ansible-lint](https://github.com/willthames/ansible-lint).
-  * Avoids shelling out to a script if the work can be done with Ansible tasks.
-  * Uses the same indentation, encoding, and line endings throughout the project.
+  1. Avoids shelling out to a script if the work can be done with Ansible tasks.
+  1. Uses the same indentation, encoding, and line endings throughout the project.
 
 ### Documented
   1. Engineers can read the code without consulting the README.
-  * Users can run your code consulting _only_ the README.
-  * Is obvious in intent, self-documenting.
-  * Produces log messages before and after long-running, complex, or risky actions.
+  1. Users can run your code consulting _only_ the README.
+  1. Is obvious in intent, self-documenting.
+  1. Produces log messages before and after long-running, complex, or risky actions.
 
 ### Sanitized
   1. No unencrypted secrets in any repo for any reason, ever.
-  * No sensitive technical, personal, or corporate information in public repos, ever. <sup>(try to avoid it in private repos too!)
+  1. No sensitive technical, personal, or corporate information in public repos, ever. <sup>(try to avoid it in private repos too!)</sup>
 
 ### Reviewed
   1. Merge/pull requests for every change to shared branches.
-  * Nothing gets merged without having been reviewed by a co-worker.
-  * Reviewers have three key responsibilities:
+  1. Nothing gets merged without having been reviewed by a co-worker.
+  1. Reviewers have three key responsibilities:
     * _Ensure these requirements are met._
     * _Ensure that they understand the intent of the project and the intent of the change._
     * _Ensure that no failed test represents a potentially blocking issue._
@@ -43,18 +43,18 @@ Roles are meant to be co-exist in an ecosystem of roles, whether they're publish
 ### Scoped Appropriately
   1. Avoids installing the entire stack of pre-requisites whenever possible.
     * eg: Roles which launch Java applications should not attempt to install Java.
-  * Call on public roles to do work whenever possible.
+  1. Call on public roles to do work whenever possible.
     * eg: Roles which launch ancient Java applications with very specific requirements may *need* to call on a Java role to install an application-specific Java.
 
 ### Parameterized
   1. Avoids hardcoding configuration data.
     * Package names, URLs, port numbers, usernames, passwords, version numbers, etc.
-  * Includes sane values for all required parameters in `defaults/main.yml`.
+  1. Includes sane values for all required parameters in `defaults/main.yml`.
 
 ### Prepped for the Galaxy
   1. Includes a `LICENSE` file (see below).
-  * Includes the relevant information in `meta/main.yml`.
-  * Includes an accurate and up-to-date `requirements.yml`.
+  1. Includes the relevant information in `meta/main.yml`.
+  1. Includes an accurate and up-to-date `requirements.yml`.
 
 ```
 Copyright (C) Acme Systems, Inc.  All Rights Reserved.
@@ -74,11 +74,9 @@ Where Roles describe a generic unit of configuration Playbooks describe specific
 
 ### Complete
   1. Requires no manual tailoring prior to use.
-  * Programmatically fetches or generates anything dynamic.
+  1. Programmatically fetches or generates anything dynamic.
 
 # Resources
-
-
 ## Instantiation
 ### Playbooks
   ```bash

@@ -4,7 +4,7 @@ This is a living document meant to describe the basic state for all of Ansible c
 
 ## First and always: Keep It Simple and Specific
 
-## Naming Conventions
+# Naming Conventions
 
 `ansible-<type>-<infra>-<application>`
 
@@ -15,7 +15,7 @@ The key goal here is clarity. The `ansible` prefix makes the repo easy to group 
 
 Note that if you submit a role to the Galaxy prefixed with `ansible-`, they'll strip that off the role name and also give you the opportunity to set it manually. So `ansible-role-docker-compose-gitlab` could be referred to in `requirements.yml` files as `<username>.docker-compose-gitlab`.
 
-#### Examples
+### Examples
 * `ansible-role-docker-compose-gitlab` - This one might be too long, could probably drop the `compose`.
 * `ansible-role-rhel-selinux`
 * `ansible-role-linux-sshconfig` - _linux_ used instead of listing specific distros
@@ -23,7 +23,8 @@ Note that if you submit a role to the Galaxy prefixed with `ansible-`, they'll s
 * `ansible-play-aws-ecs-artifactory`
 
 
-## Minimal Standards
+
+# Minimal Standards
 
 Every point below comes with an asterisk implied: _\* Within reason._&nbsp; Sometimes hardcoding data (especially Ansible inventories) is the only reasonable option. Sometimes you need to merge a change whose tests aren't _all_ passing. Exceptional circumstances.
 
@@ -41,6 +42,7 @@ Every point below comes with an asterisk implied: _\* Within reason._&nbsp; Some
   1. Engineers can read the code without consulting the README.
   1. Users can run your code consulting _only_ the README.
   1. Is obvious in intent, self-documenting.
+  1. All tasks are given a description in the name field.
   1. Produces log messages before and after long-running, complex, or risky actions.
 
 ### Sanitized
@@ -94,6 +96,29 @@ Where Roles describe a generic unit of configuration Playbooks describe specific
 ### Complete
   1. Requires no manual tailoring prior to use.
   1. Programmatically fetches or generates anything dynamic.
+
+# Secrets
+
+Ansible has Vault, which handles the encryption and decryption of YAML variables or entire files. Generally, these should be kept in `group_vars` alongside other variables. The `ansible-vault` command can accept secrets on stdin and print the encrypted text out. This encrypted text can then be used in a vars or defaults YAML file like so:
+```yaml
+dbuser: admin
+dbpass: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          66386439653236336462626566653063336164663966303231363934653561363964363833313662
+          6431626536303530376336343832656537303632313433360a626438346336353331386135323734
+          62656361653630373231613662633962316233633936396165386439616533353965373339616234
+          3430613539666330390a313736323265656432366236633330313963326365653937323833366536
+          34623731376664623134383463316265643436343438623266623965636363326136
+dbport: 1234
+```
+
+Note that the above behaviour is only available in Ansible 2.3+. In older versions, entire YAML files have to be encrypted. So instead of having secrets inline, they'd be stored in a `vault.yml` file.
+
+### Best Practices
+* Keep secrets alongside other defaults and vars whenever possible.
+* Each environment gets its own encryption key.
+* Encryption costs very little, so use it whenever it might make sense to.
+
 
 # Resources
 ## Instantiation
